@@ -8,24 +8,33 @@ Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Streamline accessibility improvements for your WordPress site with tools for alt text editing, focus management, keyboard navigation, and more — all from your admin dashboard.
+Practical accessibility enhancements and diagnostic tools for WordPress. Includes admin tools for alt text, headings, contrast, vague links, and visual enhancements like dark mode and greyscale.
 
 == Description ==
-**Accessibility Toolkit** provides practical accessibility enhancements for WordPress admins, content editors, and developers. Designed to help you meet WCAG compliance faster, it includes focused tools for common a11y tasks — right where you need them.
+**Accessibility Toolkit** provides a dual approach to accessibility improvements in WordPress: practical diagnostic tools for admins and editors, and optional front-end visual enhancements for users.
+
+This plugin is designed to complement the WAVE browser extension by WebAIM by offering tools that WAVE doesn’t cover or that we wanted to improve on. For a more complete accessibility review, using both is recommended.
 
 **Features:**
-
+- **Skip to Content Link:** Automatically inserts a visually hidden "Skip to main content" link at the top of each page for improved keyboard navigation.
 - **Alt Text Column & Inline Editing:** Adds a sortable “Alt Text” column to the Media Library list view, including an edit button for quickly updating missing or incorrect image alt text.
-- **Image Metadata Columns:** Adds sortable columns for image dimensions, MIME type (e.g. `image/png`, `application/zip`), and file size.
-- **WCAG-Oriented Enhancements (coming soon):**
-  - Skip link injector
-  - Heading structure audit
-  - Color contrast checker
-  - ARIA role validator
-- **AJAX Editing:** Inline alt text edits update instantly without reloading the page.
-- **Accessibility-First Focus:** Designed to complement your accessibility audit process and help non-technical users contribute to site compliance.
+- **Additional Media Columns:** Adds sortable columns for image dimensions, MIME type (e.g. `image/png`, `application/zip`), and file size.
+- **Accessibility Admin Bar Tools:** Adds a front-end admin bar menu with toggleable visual checks for accessibility issues:
+  - Missing Alt Text
+  - Poor Color Contrast (AA/AAA)
+  - Vague Link Text (e.g. “click here”)
+  - Improper Heading Hierarchy (e.g. skipping from H2 to H4)
+  - Links Missing Underlines (excluding buttons and navs)
+- **Frontend Mode Switcher:** Adds an accessibility mode switcher for Dark Mode, and Greyscale, optionally placed as:
+  - A floating toggle
+  - A navigation menu item
+  - A shortcode (`[a11ytoolkit_modes]`)
+- **Logo Swap in Dark Mode:** Optionally swap logos when dark mode is enabled.
+- **Custom Visibility Rules:** Choose who can see the frontend mode switcher — everyone, logged-in users, or just admins.
+- **WCAG AAA Option:** Enforce stricter AAA color contrast checks when using the visual contrast tool.
+- **Custom Vague Phrases:** Configure your own list of vague link texts to scan for (e.g. “read more, learn more, click here”).
 
-This plugin is ideal for accessibility-conscious site owners, developers, and content managers looking for tools to bridge the compliance gap.
+Accessibility Toolkit gives you clear, actionable insights directly in the WordPress UI to improve accessibility compliance faster.
 
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/accessibility-toolkit/` directory.
@@ -34,7 +43,7 @@ This plugin is ideal for accessibility-conscious site owners, developers, and co
 
 == Frequently Asked Questions ==
 = Does this plugin automatically make my site accessible? =
-No — Accessibility Toolkit is not a one-click solution. It provides tools that help you identify and resolve common accessibility issues more efficiently, particularly in the WordPress admin area.
+No — Accessibility Toolkit is not a one-click solution. It offers some very basic enhancements and provides tools that help you identify and resolve common accessibility issues more efficiently.
 
 = Can I edit alt text in bulk? =
 Currently, you can quickly edit alt text one-by-one directly in the Media Library table. A bulk editor is planned for a future release.
