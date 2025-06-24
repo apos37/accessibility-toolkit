@@ -1,0 +1,5 @@
+/* Greyscale */
+.a11ytoolkit-greyscale-mode #site-content,
+.a11ytoolkit-greyscale-mode .x-root {
+	filter: grayscale(100%);
+}

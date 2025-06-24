@@ -1,0 +1,71 @@
+/* General Background & Text */
+.a11ytoolkit-dark-mode,
+.a11ytoolkit-dark-mode .dark-mode {
+	background-color: #222222;
+}
+
+.a11ytoolkit-dark-mode,
+.a11ytoolkit-dark-mode .dark-mode {
+  color: white;
+}
+
+.a11ytoolkit-dark-mode h1, 
+.a11ytoolkit-dark-mode h3, 
+.a11ytoolkit-dark-mode h5 {
+  color: #3dcbdb !important;
+}
+
+.a11ytoolkit-dark-mode h2, 
+.a11ytoolkit-dark-mode h4, 
+.a11ytoolkit-dark-mode h6 {
+  color: #fbd46d !important;
+}
+
+.a11ytoolkit-dark-mode ul li {
+  color: white !important;
+}
+
+.a11ytoolkit-dark-mode .entry-wrap p {
+  color: white;
+}
+
+.a11ytoolkit-dark-mode polygon {
+  fill: #222222;
+}
+
+/* Darken Column */
+.a11ytoolkit-dark-mode .col-float {
+  background-color: rgb(0,0,0,.75);
+}
+
+.a11ytoolkit-dark-mode .dark-lvl1 {
+  background-color: rgb(0,0,0,.55);
+}
+
+.a11ytoolkit-dark-mode .dark-lvl2 {
+  background-color: rgb(0,0,0,.75);
+}
+
+.a11ytoolkit-dark-mode .dark-gray {
+  background-color: #222222;
+}
+
+/* Topbar */
+.a11ytoolkit-dark-mode #topbar-account,
+.a11ytoolkit-dark-mode #topbar-account a {
+  color: white;
+}
+
+.a11ytoolkit-dark-mode #topbar-account a:hover {
+  color: #3dcbdb;
+}
+
+/* Favorites */
+.a11ytoolkit-dark-mode .favorite {
+  color: #fbd46d;
+
+}
+
+.a11ytoolkit-dark-mode .favorite:hover {
+  color: #fbd46d !important;
+}

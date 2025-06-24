@@ -1,0 +1,44 @@
+/* General Background & Text */
+.a11ytoolkit-dark-mode #bbpress-forums label,
+.a11ytoolkit-dark-mode #bbpress-forums legend,
+.a11ytoolkit-dark-mode #bbpress-forums div {
+  color: white !important;
+}
+
+/* Links */
+.a11ytoolkit-dark-mode #bbpress-forums a,
+.a11ytoolkit-dark-mode .x-bbp-item-info-content .x-bbp-item-info-author .bbp-author-name {
+  border-bottom: 2px solid rgba(0,0,0,0) !important;
+  color: #fbd46d !important;
+  transition: all ease-in .1s;
+  -webkit-transition: all ease-in .1s;
+  -moz-transition: all ease-in .1s;
+  -o-transition: all ease-in .1s;
+}
+
+.a11ytoolkit-dark-mode #bbpress-forums a:hover,
+.a11ytoolkit-dark-mode .x-bbp-item-info-content .x-bbp-item-info-author .bbp-author-name:hover {
+  color: #ffffff !important;
+  border-bottom: 2px solid #cb9700 !important;
+}
+
+/* Forums */
+.a11ytoolkit-dark-mode .x-bbp-item-info-header,
+.a11ytoolkit-dark-mode .bbp-header,
+.a11ytoolkit-dark-mode .bbp-footer {
+  background-color: #013765;
+}
+
+.a11ytoolkit-dark-mode .bbp-body>ul,
+.a11ytoolkit-dark-mode .bbp-body>div.hentry {
+  background-color: #111111;
+  border: 1px solid rgba(255,255,255,.25);
+}
+
+.a11ytoolkit-dark-mode .x-bbp-item-info-header .bbp-admin-links a {
+  background-color: #001f39;
+}
+
+.a11ytoolkit-dark-mode .bbp-template-notice {
+  background-color: #006630;
+}
