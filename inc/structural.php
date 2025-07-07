@@ -61,8 +61,8 @@ class Structural {
         
         $handle = 'a11ytoolkit-structural';
         wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( $handle, A11YTOOLKIT_JS_PATH . 'structural.js', [ 'jquery' ], A11YTOOLKIT_VERSION, true );
-        wp_enqueue_style( $handle, A11YTOOLKIT_CSS_PATH . 'structural.css', [], A11YTOOLKIT_VERSION );
+        wp_enqueue_script( $handle, A11YTOOLKIT_JS_PATH . 'structural.js', [ 'jquery' ], A11YTOOLKIT_SCRIPT_VERSION, true );
+        wp_enqueue_style( $handle, A11YTOOLKIT_CSS_PATH . 'structural.css', [], A11YTOOLKIT_SCRIPT_VERSION );
     } // End enqueue()
 
 }

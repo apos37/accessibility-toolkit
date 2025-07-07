@@ -119,7 +119,7 @@ class AdminBar {
 
 		$handle = 'a11ytoolkit_admin_bar';
         wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( $handle, A11YTOOLKIT_JS_PATH . 'admin-bar.js', [ 'jquery' ], A11YTOOLKIT_VERSION, true );
+		wp_enqueue_script( $handle, A11YTOOLKIT_JS_PATH . 'admin-bar.js', [ 'jquery' ], A11YTOOLKIT_SCRIPT_VERSION, true );
 		wp_localize_script( $handle, 'admin_bar', [
             'ajaxurl'         => admin_url( 'admin-ajax.php' ),
             'nonce'           => wp_create_nonce( $this->nonce_alt_text ),
@@ -131,6 +131,6 @@ class AdminBar {
                 'missing' => __( 'Missing Alt Text', 'accessibility-toolkit' )
             ]
         ] );
-		wp_enqueue_style( A11YTOOLKIT_TEXTDOMAIN . '-admin-bar', A11YTOOLKIT_CSS_PATH . 'admin-bar.css', [], A11YTOOLKIT_VERSION );
+		wp_enqueue_style( A11YTOOLKIT_TEXTDOMAIN . '-admin-bar', A11YTOOLKIT_CSS_PATH . 'admin-bar.css', [], A11YTOOLKIT_SCRIPT_VERSION );
     } // End enqueue_scripts()
 }

@@ -93,22 +93,30 @@ class Modes {
      */
     public function modes() {
         $default = [ 'default' => [
-            'label' => __( 'Default', 'accessibility-toolkit' ),
-            'icon'  => 'f185', // fa-sun
+            'label'  => __( 'Default', 'accessibility-toolkit' ),
+            'switch' => __( 'Switch to default mode', 'accessibility-toolkit' ),
+            'active' => __( 'Default mode activated', 'accessibility-toolkit' ),
+            'icon'   => 'f185', // fa-sun
         ] ];
 
         $modes = apply_filters( 'a11ytoolkit_modes', [
-            'dark'          => [
-                'label' => __( 'Dark', 'accessibility-toolkit' ),
-                'icon'  => 'f186', // fa-moon
+            'dark' => [
+                'label'  => __( 'Dark', 'accessibility-toolkit' ),
+                'switch' => __( 'Switch to dark mode', 'accessibility-toolkit' ),
+                'active' => __( 'Dark mode activated', 'accessibility-toolkit' ),
+                'icon'   => 'f186', // fa-moon
             ],
             // 'high-contrast' => [
-            //     'label' => __( 'High Contrast', 'accessibility-toolkit' ),
-            //     'icon'  => 'f06a', // fa-circle-exclamation
+            //     'label'  => __( 'High Contrast', 'accessibility-toolkit' ),
+            //     'switch' => __( 'Switch to high contrast mode', 'accessibility-toolkit' ),
+            //     'active' => __( 'High contrast mode activated', 'accessibility-toolkit' ),
+            //     'icon'   => 'f06a', // fa-circle-exclamation
             // ],
-            'greyscale'     => [
-                'label' => __( 'Greyscale', 'accessibility-toolkit' ),
-                'icon'  => 'f042', // fa-circle-half-stroke
+            'greyscale' => [
+                'label'  => __( 'Greyscale', 'accessibility-toolkit' ),
+                'switch' => __( 'Switch to greyscale mode', 'accessibility-toolkit' ),
+                'active' => __( 'Greyscale mode activated', 'accessibility-toolkit' ),
+                'icon'   => 'f042', // fa-circle-half-stroke
             ],
         ] );
 
@@ -224,15 +232,24 @@ class Modes {
         }
 
         $icon_html = $this->get_icon( $current_mode );
-        $label = $modes[ $current_mode ][ 'label' ];
+        $active_label = $modes[ $current_mode ][ 'active' ]; // Screen reader announcement
+
+        $next_mode_keys = array_keys( $modes );
+        $current_index = array_search( $current_mode, $next_mode_keys );
+        $next_index = ( $current_index + 1 ) % count( $next_mode_keys );
+        $next_switch = $modes[ $next_mode_keys[ $next_index ] ][ 'switch' ]; // Action label
 
         ob_start();
         ?>
         <div id="a11ytoolkit-mode-switch" data-type="<?php echo esc_attr( $type ); ?>" data-current="<?php echo esc_attr( $current_mode ); ?>">
-            <button id="a11ytoolkit-mode-toggle" aria-label="<?php echo esc_attr( $label ); ?>" title="<?php echo esc_attr( $label ); ?>">
+            <button
+                id="a11ytoolkit-mode-toggle"
+                aria-label="<?php echo esc_attr( $next_switch ); ?>"
+                title="<?php echo esc_attr( $next_switch ); ?>">
                 <?php echo wp_kses_post( $icon_html ); ?>
-                <span class="screen-reader-text"><?php echo esc_html( $label ); ?></span>
+                <span class="screen-reader-text"><?php echo esc_html( $active_label ); ?></span>
             </button>
+            <div id="a11ytoolkit-mode-live" class="screen-reader-text" aria-live="polite" aria-atomic="true"></div>
         </div>
         <?php
         return ob_get_clean();

@@ -533,7 +533,7 @@ class Settings {
 
 		// JS
 		$handle = 'a11ytoolkit_settings';
-		wp_enqueue_script( $handle, A11YTOOLKIT_JS_PATH . 'settings.js', [ 'jquery' ], A11YTOOLKIT_VERSION, true );
+		wp_enqueue_script( $handle, A11YTOOLKIT_JS_PATH . 'settings.js', [ 'jquery' ], A11YTOOLKIT_SCRIPT_VERSION, true );
 		wp_localize_script( $handle, $handle, [
 			'on'      => __( 'On', 'accessibility-toolkit' ),
 			'off'     => __( 'Off', 'accessibility-toolkit' ),
@@ -546,7 +546,7 @@ class Settings {
 		] );
 
 		// CSS
-		wp_enqueue_style( A11YTOOLKIT_TEXTDOMAIN . '-settings', A11YTOOLKIT_CSS_PATH . 'settings.css', [], A11YTOOLKIT_VERSION );
+		wp_enqueue_style( A11YTOOLKIT_TEXTDOMAIN . '-settings', A11YTOOLKIT_CSS_PATH . 'settings.css', [], A11YTOOLKIT_SCRIPT_VERSION );
     } // End enqueue()
 
 }

@@ -16,6 +16,8 @@ jQuery( $ => {
 		}
 
 		const newLabel = newMode.label;
+		const newSwitch = newMode.switch;
+		const newActive = newMode.active;
 		const newIcon = newMode.icon;
 
 		// Update body class
@@ -30,11 +32,21 @@ jQuery( $ => {
 		const $switch = $( '#a11ytoolkit-mode-switch' );
 		if ( $switch.length ) {
 			$switch.attr( 'data-current', newModeKey );
+
 			const $button = $switch.find( '#a11ytoolkit-mode-toggle' );
-			$button.attr( 'aria-label', newLabel );
+			
+			// Get next mode for aria-label
+			const nextIndex   = ( modeKeys.indexOf( currentMode ) + 1 ) % modeKeys.length;
+			const nextSwitch  = modes[ modeKeys[ nextIndex ] ].switch;
+
+			$button.attr( 'aria-label', nextSwitch );
+			$button.attr( 'title', nextSwitch );
 			$button.find( 'i' ).remove();
-			$button.find( '.screen-reader-text' ).text( newLabel );
-			$button.prepend( newIcon );
+			$button.prepend( $( newIcon ) ); // Inject HTML icon safely
+			$button.find( '.screen-reader-text' ).text( newActive );
+
+			$( '#a11ytoolkit-mode-live' ).text( newActive );
+
 		}
 
 		// Swap logos if needed

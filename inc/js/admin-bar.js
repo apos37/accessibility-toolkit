@@ -1,6 +1,5 @@
 jQuery( $ => {
-    console.log( 'Admin Bar JS Loaded...' );
-
+    // console.log( 'Admin Bar JS Loaded...' );
     
     /**
      * Toggle the checkboxes in the admin bar
@@ -89,7 +88,7 @@ jQuery( $ => {
         const useAAA = admin_bar.doing_aaa;
         let count = 0;
 
-        $( '*:visible' ).not( '#wpadminbar *, #a11ytoolkit-mode-switch *' ).each( function() {
+        $( '*:visible' ).not( '#wpadminbar *, #a11ytoolkit-mode-switch *, .a11y-skip-link' ).each( function() {
             const $el = $( this );
             if ( $el.children().length ) return;
 
@@ -382,7 +381,7 @@ jQuery( $ => {
             }
         } );
 
-        $( '.a11ytoolkit-count[data-tool="underline-links"]' ).text( count > 0 ? `(${count})` : '' );
+        $( '.a11ytoolkit-count[data-tool="underline-links"]' ).text( count > 0 ? `(${count})` : '(0)' );
     }
 
     function removeUnderlineIssues() {
