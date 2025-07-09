@@ -236,8 +236,8 @@ class MediaLibrary {
             wp_send_json_error( 'Permission denied.' );
         }
 
-        $post_id = absint( wp_unslash( $_POST[ 'post_id' ] ) ?? 0 );
-        $alt = sanitize_text_field( wp_unslash( $_POST[ 'alt_text' ] ) ?? '' );
+        $post_id = isset( $_POST[ 'post_id' ] ) ? absint( wp_unslash( $_POST[ 'post_id' ] ) ) : 0;
+        $alt = isset( $_POST[ 'alt_text' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'alt_text' ] ) ) : '';
 
         if ( !get_post( $post_id ) ) {
             wp_send_json_error( 'Invalid attachment ID.' );

@@ -487,7 +487,7 @@ class Settings {
             esc_attr( $args[ 'key' ] ),
             esc_attr( $args[ 'key' ] ),
             esc_attr( $width ),
-            $this->render_select_options( $options, $value ),
+            wp_kses_post( $this->render_select_options( $options, $value ) ),
             wp_kses_post( $comments )
         );
     } // End settings_field_select()

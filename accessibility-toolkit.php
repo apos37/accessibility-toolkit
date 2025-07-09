@@ -3,7 +3,7 @@
  * Plugin Name:         Accessibility Toolkit
  * Plugin URI:          https://pluginrx.com/plugin/accessibility-toolkit/
  * Description:         Admin-side accessibility enhancements including alt text editing and tools to assist with WCAG compliance.
- * Version:             1.1.0
+ * Version:             1.0.1
  * Requires at least:   5.9
  * Tested up to:        6.8
  * Requires PHP:        7.4
@@ -45,7 +45,7 @@ $plugin_data = get_file_data( __FILE__, [
 
 // Versions
 define( 'A11YTOOLKIT_VERSION', $plugin_data[ 'version' ] );
-define( 'A11YTOOLKIT_SCRIPT_VERSION', time() );                                                // TODO: REPLACE WITH time() DURING TESTING
+define( 'A11YTOOLKIT_SCRIPT_VERSION', A11YTOOLKIT_VERSION );                                                // TODO: REPLACE WITH time() DURING TESTING
 define( 'A11YTOOLKIT_MIN_PHP_VERSION', $plugin_data[ 'requires_php' ] );
 
 // Names

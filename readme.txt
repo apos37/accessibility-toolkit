@@ -8,7 +8,7 @@ Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Practical accessibility enhancements and diagnostic tools for WordPress. Includes admin tools for alt text, headings, contrast, vague links, and visual enhancements like dark mode and greyscale.
+Accessibility diagnostics and tools for alt text, contrast, vague links, and more.
 
 == Description ==
 **Accessibility Toolkit** provides a dual approach to accessibility improvements in WordPress: practical diagnostic tools for admins and editors, and optional front-end visual enhancements for users.
@@ -45,24 +45,11 @@ Accessibility Toolkit gives you clear, actionable insights directly in the WordP
 = Does this plugin automatically make my site accessible? =
 No — Accessibility Toolkit is not a one-click solution. It offers some very basic enhancements and provides tools that help you identify and resolve common accessibility issues more efficiently.
 
-= Can I edit alt text in bulk? =
-Currently, you can quickly edit alt text one-by-one directly in the Media Library table. A bulk editor is planned for a future release.
-
-= Does it detect decorative images? =
-Not yet, but future versions will include a toggle to mark images as decorative by setting empty alt text and/or ARIA roles.
-
 = Will more accessibility tools be added? =
 Yes. This plugin is being actively developed. Planned features include a heading audit tool, skip link injector, focus visualizer, and contrast checker.
 
 = Where can I request features and get further support? =
 We recommend using our [website support forum](https://pluginrx.com/support/plugin/accessibility-toolkit/) as the primary method for requesting features and getting help. You can also reach out via our [Discord support server](https://discord.gg/3HnzNEJVnR) or the [WordPress.org support forum](https://wordpress.org/support/plugin/accessibility-toolkit/), but please note that WordPress.org doesn’t always notify us of new posts, so it’s not ideal for time-sensitive issues.
-
-== Demo ==
-https://youtu.be/61dk4iydfDA
-
-== Screenshots ==
-1. Alt text column and inline editor in Media Library list view.
-2. Additional metadata columns for image dimensions, type, and file size.
 
 == Changelog ==
 = 1.0.1 =

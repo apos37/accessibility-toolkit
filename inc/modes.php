@@ -321,8 +321,7 @@ class Modes {
         check_ajax_referer( $this->nonce, 'nonce' );
 
         // Sanitize and validate mode
-        $raw_mode = isset( $_REQUEST[ 'mode' ] ) ? wp_unslash( $_REQUEST[ 'mode' ] ) : '';
-        $mode = sanitize_key( $raw_mode );
+        $mode = isset( $_REQUEST[ 'mode' ] ) ? sanitize_key( wp_unslash( $_REQUEST[ 'mode' ] ) ) : '';
         $available_modes = array_keys( $this->modes() );
 
         if ( !in_array( $mode, $available_modes, true ) ) {
@@ -372,7 +371,7 @@ class Modes {
 
         // JS
         $handle = 'a11ytoolkit_modes_js';
-        wp_register_script( $handle, A11YTOOLKIT_JS_PATH . 'modes.js', [ 'jquery' ], A11YTOOLKIT_SCRIPT_VERSION );
+        wp_register_script( $handle, A11YTOOLKIT_JS_PATH . 'modes.js', [ 'jquery' ], A11YTOOLKIT_SCRIPT_VERSION, true );
         wp_localize_script( $handle, 'a11ytoolkit_modes', [ 
             'nonce'           => wp_create_nonce( $this->nonce ),
             'ajaxurl'         => admin_url( 'admin-ajax.php' ),
@@ -406,4 +405,5 @@ class Modes {
         }
         
     } // End script_enqueuer()
+    
 }
