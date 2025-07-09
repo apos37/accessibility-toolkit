@@ -1,60 +1,100 @@
 jQuery( $ => {
     // console.log( 'Admin Bar JS Loaded...' );
+
+    /**
+     * Check the page for issues on load
+     */
+    function countPageIssues() {
+        checkAltBubbles( true );
+        checkColorContrast( true );
+        checkVagueLinkTexts( true );
+        checkHeadings( true );
+        checkUnderlineIssues( true );
+        updateTotalIssues();
+    }
+    $( document ).ready( countPageIssues );
+
+
+    /**
+     * Update the total issues count in the admin bar
+     */
+    function updateTotalIssues() {
+        let total = 0;
+
+        $( '.a11ytoolkit-count' ).each( function() {
+            const text = $( this ).text().replace( /[^\d]/g, '' );
+            const num = parseInt( text );
+            if ( !isNaN( num ) ) {
+                total += num;
+            }
+        } );
+
+        const $label = $( '#wp-admin-bar-a11ytoolkit .ab-label' );
+
+        if ( total > 0 ) {
+            let $badge = $label.siblings( '.ab-issues' );
+            if ( $badge.length === 0 ) {
+                $badge = $( '<span class="ab-issues update-plugins count-1"><span class="plugin-count"></span></span>' );
+                $label.after( $badge );
+            }
+            $badge.find( '.plugin-count' ).text( total );
+        } else {
+            $label.siblings( '.ab-issues' ).remove();
+        }
+    }
+
     
     /**
      * Toggle the checkboxes in the admin bar
      */
     $( '#wp-admin-bar-a11ytoolkit input[type="checkbox"]' ).on( 'change', function() {
-		const tool = $( this ).data( 'tool' );
-		const state = $( this ).is( ':checked' );
+        const $this = $( this );
+        const tool = $this.data( 'tool' );
+        const state = $this.is( ':checked' );
 
-        // Image Alt Text
-		if ( tool === 'alt-text' ) {
-            if ( state ) {
-                showAltBubbles();
-            } else {
-                removeAltBubbles();
-            }
+        // Uncheck all others and remove their effects
+        $( '#wp-admin-bar-a11ytoolkit input[type="checkbox"]' ).not( this ).each( function() {
+            const $input = $( this );
+            const otherTool = $input.data( 'tool' );
 
-        // Poor Color Contrast
-        } else if ( tool == 'contrast' ) {
-            if ( state ) {
-                showColorContrast();
-            } else {
-                removeColorContrast();
-            }
+            if ( $input.is( ':checked' ) ) {
+                $input.prop( 'checked', false );
 
-        // Vague Link Texts
-        } else if ( tool == 'vague-link-text' ) {
-            if ( state ) {
-                showVagueLinkTexts();
-            } else {
-                removeVagueLinkTexts();
+                switch ( otherTool ) {
+                    case 'alt-text': removeAltBubbles(); break;
+                    case 'contrast': removeColorContrast(); break;
+                    case 'vague-link-text': removeVagueLinkTexts(); break;
+                    case 'heading-hierarchy': removeHeadings(); break;
+                    case 'underline-links': removeUnderlineIssues(); break;
+                }
             }
+        } );
 
-        // Heading Hierarchy
-        } else if ( tool == 'heading-hierarchy' ) {
-            if ( state ) {
-                showHeadings();
-            } else {
-                removeHeadings();
+        // For the current checkbox, run check or remove accordingly
+        if ( state ) {
+            switch ( tool ) {
+                case 'alt-text': checkAltBubbles(); break;
+                case 'contrast': checkColorContrast(); break;
+                case 'vague-link-text': checkVagueLinkTexts(); break;
+                case 'heading-hierarchy': checkHeadings(); break;
+                case 'underline-links': checkUnderlineIssues(); break;
             }
-        
-        // Underlined Links
-        } else if ( tool == 'underline-links' ) {
-            if ( state ) {
-                showUnderlineIssues();
-            } else {
-                removeUnderlineIssues();
+        } else {
+            switch ( tool ) {
+                case 'alt-text': removeAltBubbles(); break;
+                case 'contrast': removeColorContrast(); break;
+                case 'vague-link-text': removeVagueLinkTexts(); break;
+                case 'heading-hierarchy': removeHeadings(); break;
+                case 'underline-links': removeUnderlineIssues(); break;
             }
         }
-	} );
+    } );
 
 
     /**
      * Image Alt Text
      */
-    function showAltBubbles() {
+    function checkAltBubbles( countOnly = false ) {
         let count = 0;
 
         $( 'img' ).not( '#wpadminbar img' ).each( function() {
@@ -62,12 +102,16 @@ jQuery( $ => {
             const alt = img.attr( 'alt' ) || '';
 
             if ( !alt.trim() && !img.parent().hasClass( 'a11y-missing-wrapper' ) ) {
-                img.wrap( `<div class="a11y-missing-wrapper" data-label="⚠️ ${admin_bar.text.missing}"></div>` );
+                if ( !countOnly ) {
+                    img.wrap( `<div class="a11y-missing-wrapper" data-label="⚠️ ${admin_bar.text.missing}"></div>` );
+                }
                 count++;
             }
         } );
 
-        $( '.a11ytoolkit-count[data-tool="alt-text"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        if ( countOnly ) {
+            $( '.a11ytoolkit-count[data-tool="alt-text"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        }
     }
 
     function removeAltBubbles() {
@@ -77,14 +121,14 @@ jQuery( $ => {
             img.unwrap();
         } );
 
-        $( '.a11ytoolkit-count[data-tool="alt-text"]' ).text( '' );
+        // $( '.a11ytoolkit-count[data-tool="alt-text"]' ).text( '' );
     }
 
 
     /**
      * Poor Color Contrast
      */
-    function showColorContrast() {
+    function checkColorContrast( countOnly = false ) {
         const useAAA = admin_bar.doing_aaa;
         let count = 0;
 
@@ -123,50 +167,55 @@ jQuery( $ => {
                     return;
                 }
 
-                // console.log( text, fg, bg );
+                if ( !countOnly ) {
+                    
+                    // console.log( text, fg, bg );
 
-                const fgHex = rgbToHex( fg );
-                const bgHex = rgbToHex( bg );
-                const url = `https://webaim.org/resources/contrastchecker/?fcolor=${fgHex}&bcolor=${bgHex}`;
+                    const fgHex = rgbToHex( fg );
+                    const bgHex = rgbToHex( bg );
+                    const url = `https://webaim.org/resources/contrastchecker/?fcolor=${fgHex}&bcolor=${bgHex}`;
 
-                $el.addClass( 'a11y-poor-contrast' );
+                    $el.addClass( 'a11y-poor-contrast' );
 
-                const offset = $el.offset();
+                    const offset = $el.offset();
 
-                // Badge text with ratio and fail level
-                let levelText = '';
-                if ( useAAA ) {
-                    levelText = failAAA ? 'AAA' : ( failAA ? 'AA' : '' );
-                } else {
-                    levelText = failAA ? 'AA' : '';
+                    // Badge text with ratio and fail level
+                    let levelText = '';
+                    if ( useAAA ) {
+                        levelText = failAAA ? 'AAA' : ( failAA ? 'AA' : '' );
+                    } else {
+                        levelText = failAA ? 'AA' : '';
+                    }
+
+                    let shouldBe = '';
+
+                    if ( isLarge ) {
+                        shouldBe = useAAA ? '4.5' : '3';
+                    } else {
+                        shouldBe = useAAA ? '7' : '4.5';
+                    }
+
+                    const badge = $( '<a>' )
+                        .addClass( 'a11y-contrast-badge' )
+                        .attr( 'href', url )
+                        .attr( 'target', '_blank' )
+                        .attr( 'title', `${levelText} fail for ${isLarge ? 'large' : 'normal'} text, should be ≥ ${shouldBe}` )
+                        .css({
+                            top: offset.top,
+                            left: offset.left
+                        })
+                        .text( ratio.toFixed(2) );
+
+                    $( 'body' ).append( badge );
                 }
-
-                let shouldBe = '';
-
-                if ( isLarge ) {
-                    shouldBe = useAAA ? '4.5' : '3';
-                } else {
-                    shouldBe = useAAA ? '7' : '4.5';
-                }
-
-                const badge = $( '<a>' )
-                    .addClass( 'a11y-contrast-badge' )
-                    .attr( 'href', url )
-                    .attr( 'target', '_blank' )
-                    .attr( 'title', `${levelText} fail for ${isLarge ? 'large' : 'normal'} text, should be ≥ ${shouldBe}` )
-                    .css({
-                        top: offset.top,
-                        left: offset.left
-                    })
-                    .text( ratio.toFixed(2) );
-
-                $( 'body' ).append( badge );
 
                 count++;
             }
         } );
 
-        $( '.a11ytoolkit-count[data-tool="contrast"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        if ( countOnly ) {
+            $( '.a11ytoolkit-count[data-tool="contrast"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        }
     }
 
     function isLargeText( el ) {
@@ -182,7 +231,7 @@ jQuery( $ => {
     function removeColorContrast() {
         $( '.a11y-poor-contrast' ).removeClass( 'a11y-poor-contrast' ).removeAttr( 'data-contrast-ratio' );
         $( '.a11y-contrast-badge' ).remove();
-        $( '.a11ytoolkit-count[data-tool="contrast"]' ).text( '' );
+        // $( '.a11ytoolkit-count[data-tool="contrast"]' ).text( '' );
     }
 
     function getEffectiveBackgroundColor( el ) {
@@ -257,7 +306,7 @@ jQuery( $ => {
     /**
      * Vague Link Text
      */
-    function showVagueLinkTexts() {
+    function checkVagueLinkTexts( countOnly = false ) {
         const vaguePhrases = admin_bar.vague_link_text
             .split( ',' )
             .map( phrase => phrase.trim().toLowerCase() )
@@ -266,22 +315,25 @@ jQuery( $ => {
         let count = 0;
 
         $( 'a:visible' ).not( '#wpadminbar a' ).each( function() {
-            const link = this;
-            const $link = $( link );
+            const $link = $( this );
             const linkText = $link.text().trim();
 
             if ( !linkText ) return;
 
             if ( vaguePhrases.includes( linkText.toLowerCase() ) ) {
-                if ( ! $link.hasClass( 'a11y-vague-link-text' ) ) {
-                    $link.addClass( 'a11y-vague-link-text' );
-                    $link.attr( 'title', 'Vague link text: "' + linkText + '"' );
+                if ( !$link.hasClass( 'a11y-vague-link-text' ) ) {
+                    if ( !countOnly ) {
+                        $link.addClass( 'a11y-vague-link-text' );
+                        $link.attr( 'title', 'Vague link text: "' + linkText + '"' );
+                    }
                     count++;
                 }
             }
         } );
 
-        $( '.a11ytoolkit-count[data-tool="vague-link-text"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        if ( countOnly ) {
+            $( '.a11ytoolkit-count[data-tool="vague-link-text"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        }
     }
 
     function removeVagueLinkTexts() {
@@ -291,14 +343,14 @@ jQuery( $ => {
             $link.removeAttr( 'title' );
         } );
 
-        $( '.a11ytoolkit-count[data-tool="vague-link-text"]' ).text( '' );
+        // $( '.a11ytoolkit-count[data-tool="vague-link-text"]' ).text( '' );
     }
 
 
     /**
      * Heading Hierarchy
      */
-    function showHeadings() {
+    function checkHeadings( countOnly = false ) {
         const headings = $( 'h1, h2, h3, h4, h5, h6' ).filter( ':visible' );
         let lastLevel = 0;
         let errorCount = 0;
@@ -308,58 +360,61 @@ jQuery( $ => {
             const tag = heading.prop( 'tagName' ).toUpperCase();
             const level = parseInt( tag.replace( 'H', '' ) );
 
-            if ( heading.find( '.a11y-heading-label' ).length > 0 ) {
-                return;
-            }
-
-            const label = $( '<span>' )
-                .addClass( 'a11y-heading-label' )
-                .text( tag );
+            if ( heading.find( '.a11y-heading-label' ).length > 0 ) return;
 
             if ( lastLevel && level > lastLevel + 1 ) {
-                label.addClass( 'a11y-error' ).attr( 'title', `Skipped heading level (last was H${lastLevel})` );
-                heading.addClass( 'a11y-heading-error' );
                 errorCount++;
+
+                if ( !countOnly ) {
+                    const label = $( '<span>' )
+                        .addClass( 'a11y-heading-label a11y-error' )
+                        .attr( 'title', `Skipped heading level (last was H${lastLevel})` )
+                        .text( tag );
+                    heading.append( label );
+                    heading.addClass( 'a11y-heading-error' );
+                }
+            } else if ( !countOnly ) {
+                const label = $( '<span>' )
+                    .addClass( 'a11y-heading-label' )
+                    .text( tag );
+                heading.append( label );
             }
 
             lastLevel = level;
-            heading.append( label );
         } );
 
-        $( '.a11ytoolkit-count[data-tool="heading-hierarchy"]' ).text( errorCount > 0 ? `(${errorCount})` : '(0)' );
+        if ( countOnly ) {
+            $( '.a11ytoolkit-count[data-tool="heading-hierarchy"]' ).text( errorCount > 0 ? `(${errorCount})` : '(0)' );
+        }
     }
 
     function removeHeadings() {
         $( '.a11y-heading-label' ).remove();
         $( '.a11y-heading-error' ).removeClass( 'a11y-heading-error' );
-        $( '.a11ytoolkit-count[data-tool="heading-hierarchy"]' ).text( '' );
+        // $( '.a11ytoolkit-count[data-tool="heading-hierarchy"]' ).text( '' );
     }
 
 
     /**
      * Links Missing Underlines
      */
-    function showUnderlineIssues() {
+    function checkUnderlineIssues( countOnly = false ) {
         let count = 0;
 
         $( 'a:visible' ).each( function() {
             const link = this;
             const $link = $( link );
 
-            // Skip if inside #wpadminbar
-            if ( $link.closest( '#wpadminbar' ).length ) return;
-
-            // Skip if a button or nav
+            // Exclusion logic
             if (
                 link.className.match( /button/i ) ||
                 $link.hasClass( 'btn' ) ||
-                $link.closest( 'nav' ).length
+                $link.closest( 'nav' ).length ||
+                $link.closest( '#wpadminbar' ).length ||
+                $link.closest( 'button' ).length
             ) {
                 return;
             }
-
-            // Skip if inside a button element
-            if ( $link.closest( 'button' ).length ) return;
 
             const text = $link.text().trim();
             if ( !text ) return;
@@ -370,7 +425,7 @@ jQuery( $ => {
             if ( decoration !== 'underline' ) {
                 count++;
 
-                if ( !$link.hasClass( 'a11y-underline-issue' ) ) {
+                if ( !countOnly && !$link.hasClass( 'a11y-underline-issue' ) ) {
                     $link.addClass( 'a11y-underline-issue' );
                     const label = $( '<span>' )
                         .addClass( 'a11y-underline-label' )
@@ -381,13 +436,15 @@ jQuery( $ => {
             }
         } );
 
-        $( '.a11ytoolkit-count[data-tool="underline-links"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        if ( countOnly ) {
+            $( '.a11ytoolkit-count[data-tool="underline-links"]' ).text( count > 0 ? `(${count})` : '(0)' );
+        }
     }
 
     function removeUnderlineIssues() {
         $( '.a11y-underline-issue' ).removeClass( 'a11y-underline-issue' );
         $( '.a11y-underline-label' ).remove();
-        $( '.a11ytoolkit-count[data-tool="underline-links"]' ).text( '' );
+        // $( '.a11ytoolkit-count[data-tool="underline-links"]' ).text( '' );
     }
 
 } );

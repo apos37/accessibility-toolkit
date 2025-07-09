@@ -31,6 +31,14 @@ add_action( 'init', function() {
 class AdminBar {
 
     /**
+     * The dashicon for the admin bar menu
+     *
+     * @var string
+     */
+    public $dashicon = 'dashicons-universal-access';
+
+    
+    /**
      * Nonce
      *
      * @var string
@@ -65,7 +73,7 @@ class AdminBar {
         // The main toolbar menu item
         $wp_admin_bar->add_node( [
             'id'    => 'a11ytoolkit',
-            'title' => '<span class="ab-icon dashicons dashicons-universal-access" title="' . esc_attr( A11YTOOLKIT_NAME ) . '"></span><span class="ab-label">' . __( 'A11y Tools', 'accessibility-toolkit' ) . '</span>',
+            'title' => '<span class="ab-icon dashicons ' . esc_attr( $this->dashicon ) . '" title="' . esc_attr( A11YTOOLKIT_NAME ) . '"></span><span class="ab-label">' . __( 'A11y Tools', 'accessibility-toolkit' ) . '</span>',
             'href'  => false,
         ] );
 
